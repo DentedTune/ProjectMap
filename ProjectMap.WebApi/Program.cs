@@ -19,6 +19,10 @@ if (string.IsNullOrWhiteSpace(sqlConnectionString))
 builder.Services.AddTransient<IEnvironment2DRepository, Environment2DRepository>(o => new Environment2DRepository(sqlConnectionString));
 builder.Services.AddTransient<IObject2DRepository, Object2DRepository>(o => new Object2DRepository(sqlConnectionString));
 
+var sqlConnectionStringAsString = builder.Configuration.GetValue<string>("SqlConnectionString");
+var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionStringAsString);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.|
@@ -31,3 +35,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+app.MapGet("/", () => $"The API is up . Connection string found: {(sqlConnectionStringFound ? "" : "")}");
