@@ -11,7 +11,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.Configure<RouteOptions>(o => o.LowercaseUrls = true);
 
-var sqlConnectionString = builder.Configuration["SqlConnectionString"];
+var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionString");
+var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
 if (string.IsNullOrWhiteSpace(sqlConnectionString))
     throw new InvalidProgramException("Configuration variable SqlConnectionString not found");
@@ -19,8 +20,6 @@ if (string.IsNullOrWhiteSpace(sqlConnectionString))
 builder.Services.AddTransient<IEnvironment2DRepository, Environment2DRepository>(o => new Environment2DRepository(sqlConnectionString));
 builder.Services.AddTransient<IObject2DRepository, Object2DRepository>(o => new Object2DRepository(sqlConnectionString));
 
-var sqlConnectionStringAsString = builder.Configuration.GetValue<string>("SqlConnectionString");
-var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionStringAsString);
 
 
 var app = builder.Build();
