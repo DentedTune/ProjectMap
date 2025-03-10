@@ -17,13 +17,11 @@ namespace ProjectMap.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, ObjectType, PositionX, PositionY, Width, Length, Direction, RotationZ, SortingLayer)" +
-                                                                                    "VALUES (@Id, @ObjectType, @PositionX, @PositionY, @Width, @Length, @Direction, @RotationZ, @SortingLayer)", object2D);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (EnvironmentId, Id, ObjectType, PositionX, PositionY, Width, Length, Direction, RotationZ, SortingLayer)" +
+                                                                                    "VALUES (@EnvironmentId, @Id, @ObjectType, @PositionX, @PositionY, @Width, @Length, @Direction, @RotationZ, @SortingLayer)", object2D);
                 return object2D;
             }
         }
-
-        //BlaBlaBla
 
         public async Task<Object2D?> ReadAsync(Guid id)
         {

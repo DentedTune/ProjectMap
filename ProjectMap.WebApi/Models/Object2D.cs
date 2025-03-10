@@ -2,6 +2,7 @@ namespace ProjectMap.WebApi.Models;
 
 public class Object2D
 {
+    public Guid EnvironmentId { get; set; }
     public Guid Id { get; set; }
 
     public string ObjectType { get; set; }
