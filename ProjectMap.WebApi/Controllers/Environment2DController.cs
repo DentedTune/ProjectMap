@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 namespace ProjectMap.WebApi.Controllers;
 
 [ApiController]
-[Route("2DEnvironments")]
+[Route("Environments2D")]
 public class Environment2DController : ControllerBase
 {
     private readonly IEnvironment2DRepository _environment2DRepository;
@@ -23,8 +23,12 @@ public class Environment2DController : ControllerBase
     [HttpGet(Name = "ReadEnvironments2D")]
     public async Task<ActionResult<IEnumerable<Environment2D>>> Get()
     {
-        var environment2Ds = await _environment2DRepository.ReadAsync();
-        return Ok(environment2Ds);
+        var environments2D = await _environment2DRepository.ReadAsync();
+        foreach (Environment2D environment2D in environments2D)
+        {
+            environment2D.Name = environment2D.Name.Trim();
+        }
+        return Ok(environments2D);
     }
 
     [HttpGet("{environment2DId}", Name = "ReadEnvironment2D")]
@@ -34,6 +38,7 @@ public class Environment2DController : ControllerBase
         if (environment2D == null)
             return NotFound();
 
+        environment2D.Name = environment2D.Name.Trim();
         return Ok(environment2D);
     }
 

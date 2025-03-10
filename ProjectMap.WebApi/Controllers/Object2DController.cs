@@ -7,7 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace ProjectMap.WebApi.Controllers;
 
 [ApiController]
-[Route("Object2D")]
+[Route("Objects2D")]
 public class Object2DController : ControllerBase
 {
     private readonly IObject2DRepository _object2DRepository;
@@ -22,8 +22,12 @@ public class Object2DController : ControllerBase
     [HttpGet(Name = "ReadObjects2D")]
     public async Task<ActionResult<IEnumerable<Object2D>>> Get()
     {
-        var object2Ds = await _object2DRepository.ReadAsync();
-        return Ok(object2Ds);
+        var objects2D = await _object2DRepository.ReadAsync();
+        foreach(Object2D object2D in objects2D)
+        {
+            object2D.ObjectType = object2D.ObjectType.Trim();
+        }
+        return Ok(objects2D);
     }
 
     [HttpGet("{object2DId}", Name = "ReadObject2D")]
@@ -32,6 +36,8 @@ public class Object2DController : ControllerBase
         var object2D = await _object2DRepository.ReadAsync(Object2DId);
         if (object2D == null)
             return NotFound();
+
+        object2D.ObjectType = object2D.ObjectType.Trim();
 
         return Ok(object2D);
     }
