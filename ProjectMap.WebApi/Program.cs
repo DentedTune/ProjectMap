@@ -19,7 +19,7 @@ if (string.IsNullOrWhiteSpace(sqlConnectionString))
 
 builder.Services.AddTransient<IEnvironment2DRepository, Environment2DRepository>(o => new Environment2DRepository(sqlConnectionString));
 builder.Services.AddTransient<IObject2DRepository, Object2DRepository>(o => new Object2DRepository(sqlConnectionString));
-
+builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(sqlConnectionString));
 
 
 var app = builder.Build();
