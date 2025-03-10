@@ -19,14 +19,14 @@ public class Object2DController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "Read2DObjects")]
+    [HttpGet(Name = "ReadObjects2D")]
     public async Task<ActionResult<IEnumerable<Object2D>>> Get()
     {
         var object2Ds = await _object2DRepository.ReadAsync();
         return Ok(object2Ds);
     }
 
-    [HttpGet("{object2DId}", Name = "Read2DObject")]
+    [HttpGet("{object2DId}", Name = "ReadObject2D")]
     public async Task<ActionResult<Object2D>> Get(Guid Object2DId)
     {
         var object2D = await _object2DRepository.ReadAsync(Object2DId);

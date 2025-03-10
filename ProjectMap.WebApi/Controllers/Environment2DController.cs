@@ -20,14 +20,14 @@ public class Environment2DController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet(Name = "Read2DEnvironments")]
+    [HttpGet(Name = "ReadEnvironments2D")]
     public async Task<ActionResult<IEnumerable<Environment2D>>> Get()
     {
         var environment2Ds = await _environment2DRepository.ReadAsync();
         return Ok(environment2Ds);
     }
 
-    [HttpGet("{environment2DId}", Name = "Read2DEnvironment")]
+    [HttpGet("{environment2DId}", Name = "ReadEnvironment2D")]
     public async Task<ActionResult<Environment2D>> Get(Guid environment2DId)
     {
         var environment2D = await _environment2DRepository.ReadAsync(environment2DId);
@@ -37,7 +37,7 @@ public class Environment2DController : ControllerBase
         return Ok(environment2D);
     }
 
-    [HttpPost(Name = "Create2Denvironment")]
+    [HttpPost(Name = "CreateEnvironment2D")]
     public async Task<ActionResult> Add(Environment2D environment2D)
     {
         environment2D.Id = Guid.NewGuid();
@@ -45,7 +45,7 @@ public class Environment2DController : ControllerBase
         var createdEnvironment2D = await _environment2DRepository.InsertAsync(environment2D);
         return Created();
     }
-    [HttpPut("{environment2DId}", Name = "Update2DEnvironment")]
+    [HttpPut("{environment2DId}", Name = "UpdateEnvironment2D")]
     public async Task<ActionResult> Update(Guid environment2DId, Environment2D newEnvironment2D)
     {
         var existingEnvironment2D = await _environment2DRepository.ReadAsync(environment2DId);
@@ -58,7 +58,7 @@ public class Environment2DController : ControllerBase
         return Ok(newEnvironment2D);
     }
 
-    [HttpDelete("{environment2DId}", Name = "Delete2DEnvironmentByGuid")]
+    [HttpDelete("{environment2DId}", Name = "DeleteEnvironment2DByGuid")]
     public async Task<IActionResult> Update(Guid environment2DId)
     {
         var existingEnvironment2D = await _environment2DRepository.ReadAsync(environment2DId);

@@ -17,7 +17,8 @@ namespace ProjectMap.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, PrefabId, PositionX, PositionY, ScaleX, ScaleY, RotationZ, SortingLayer) VALUES (@Id, @PrefabId, @PositionX, @PositionY, ScaleX, ScaleY, RotationZ, SortingLayer)", object2D);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Object2D] (Id, ObjectType, PositionX, PositionY, Width, Length, Direction, RotationZ, SortingLayer)" +
+                                                                                    "VALUES (@Id, @ObjectType, @PositionX, @PositionY, @Width, @Length, @Direction, @RotationZ, @SortingLayer)", object2D);
                 return object2D;
             }
         }
@@ -39,18 +40,19 @@ namespace ProjectMap.WebApi.Repositories
                 return await sqlConnection.QueryAsync<Object2D>("SELECT * FROM [Object2D]");
             }
         }
-        public async Task UpdateAsync(Object2D environment)
+        public async Task UpdateAsync(Object2D object2D)
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
                 await sqlConnection.ExecuteAsync("UPDATE [Object2D] SET " +
                                                  "PositionX = @PositionX, " +
                                                  "PositionY = @PositionY, " +
-                                                 "ScaleX = @ScaleX, " +
-                                                 "ScaleY = @ScaleY, " +
+                                                 "Width = @Width, " +
+                                                 "Length = @Length, " +
+                                                 "Direction = @Direction, " +
                                                  "RotationZ = @RotationZ, " +
                                                  "SortingLayer = @SortingLayer"
-                                                 , environment);
+                                                 , object2D);
 
             }
         }
