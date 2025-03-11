@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectMap.WebApi.Models;
 using ProjectMap.WebApi.Repositories;
+using ProjectMap.WebApi.Services;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -12,6 +13,7 @@ public class Object2DController : ControllerBase
 {
     private readonly IObject2DRepository _object2DRepository;
     private readonly ILogger<Object2DController> _logger;
+    private readonly IAuthenticationService _authenticationService;
 
     public Object2DController(IObject2DRepository object2DRepository, ILogger<Object2DController> logger)
     {

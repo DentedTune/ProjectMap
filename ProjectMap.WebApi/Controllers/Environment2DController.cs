@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectMap.WebApi.Models;
 using ProjectMap.WebApi.Repositories;
+using ProjectMap.WebApi.Services;
 using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ public class Environment2DController : ControllerBase
 {
     private readonly IEnvironment2DRepository _environment2DRepository;
     private readonly ILogger<Environment2DController> _logger;
+    private readonly IAuthenticationService _authenticationService;
 
     public Environment2DController(IEnvironment2DRepository environment2DRepository, ILogger<Environment2DController> logger)
     {

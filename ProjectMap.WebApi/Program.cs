@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authentication.BearerToken;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using ProjectMap.WebApi.Repositories;
+using ProjectMap.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +25,31 @@ builder.Services.AddTransient<IEnvironment2DRepository, Environment2DRepository>
 builder.Services.AddTransient<IObject2DRepository, Object2DRepository>(o => new Object2DRepository(sqlConnectionString));
 builder.Services.AddTransient<IUserRepository, UserRepository>(o => new UserRepository(sqlConnectionString));
 
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddDapperStores(options => {options.ConnectionString = sqlConnectionString; });
+
+builder.Services.AddOptions<BearerTokenOptions>(IdentityConstants.BearerScheme).Configure(options => { options.BearerTokenExpiration = TimeSpan.FromMinutes(60); });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticationService>();
 
 var app = builder.Build();
+
+app.UseAuthorization();
+
+app.MapGroup("/account").MapIdentityApi<IdentityUser>();
+
+app.MapPost("/account/logout",
+    async (SignInManager<IdentityUser> signInManager,
+    [FromBody] object empty) =>
+    {
+        if (empty != null)
+        {
+            await signInManager.SignOutAsync();
+            return Results.Ok();
+        }
+        return Results.Unauthorized();
+    }).RequireAuthorization();
 
 // Configure the HTTP request pipeline.|
 app.MapOpenApi();

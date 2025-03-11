@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectMap.WebApi.Models;
 using ProjectMap.WebApi.Repositories;
+using ProjectMap.WebApi.Services;
 
 namespace ProjectMap.WebApi.Controllers
 {
@@ -10,6 +11,7 @@ namespace ProjectMap.WebApi.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly ILogger<UserController> _logger;
+        private readonly IAuthenticationService _authenticationService;
 
         public UserController(IUserRepository userRepository, ILogger<UserController> logger)
         {
