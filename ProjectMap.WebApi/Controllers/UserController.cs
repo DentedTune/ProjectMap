@@ -17,7 +17,7 @@ namespace ProjectMap.WebApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("Login", Name = "ReadUsers")]
+        [HttpGet(Name = "ReadUsers")]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             var users = await _userRepository.ReadAsync();
@@ -27,6 +27,7 @@ namespace ProjectMap.WebApi.Controllers
             }
             return Ok(users);
         }
+
 
         [HttpGet("{username}", Name = "ReadUser")]
         public async Task<ActionResult<User>> Get(string username)
@@ -44,6 +45,20 @@ namespace ProjectMap.WebApi.Controllers
         {
             var createdUser = await _userRepository.InsertAsync(user);
             return Created();
+        }
+
+        [HttpPost("Login", Name ="Login")]
+        public async Task<ActionResult> Login(User user)
+        {
+            User? wantedUser = await _userRepository.ReadAsync(user.Username);
+            if(wantedUser.Password.Trim() == user.Password)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpPut("{username}", Name = "UpdateUser")]
