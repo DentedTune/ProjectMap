@@ -1,8 +1,7 @@
-﻿namespace ProjectMap.WebApi.Models
+﻿namespace ProjectMap.WebApi.Models;
+
+public class User
 {
-    public class User
-    {
-        public string Username;
-        public string Password;
-    }
+    public string Username { get; set; }
+    public string Password { get; set; }
 }

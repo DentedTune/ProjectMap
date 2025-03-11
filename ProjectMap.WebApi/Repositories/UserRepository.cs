@@ -17,8 +17,7 @@ namespace ProjectMap.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var username = await sqlConnection.ExecuteAsync("INSERT INTO [WorldEditorUser] (Username, Password) " +
-                                                                                    "VALUES (@Username, @Password)", user);
+                var username = await sqlConnection.ExecuteAsync("INSERT INTO [WorldEditorUser] (Username, Password) VALUES (@Username, @Password)", user);
                 return user;
             }
         }
