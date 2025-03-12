@@ -17,7 +17,7 @@ namespace ProjectMap.WebApi.Repositories
         {
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
-                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Environment2D] (Username, Id, Name, MaxHeight, MaxLength) VALUES (@Username, @Id, @Name, @MaxHeight, @MaxLength)", environment2D);
+                var environmentId = await sqlConnection.ExecuteAsync("INSERT INTO [Environment2D] (UserId, Id, Name, MaxHeight, MaxLength) VALUES (@UserId, @Id, @Name, @MaxHeight, @MaxLength)", environment2D);
                 return environment2D;
             }
         }
@@ -27,6 +27,14 @@ namespace ProjectMap.WebApi.Repositories
             using (var sqlConnection = new SqlConnection(sqlConnectionString))
             {
                 return await sqlConnection.QuerySingleOrDefaultAsync<Environment2D>("SELECT * FROM [Environment2D] WHERE Id = @Id", new { id });
+            }
+        }
+
+        public async Task<IEnumerable<Environment2D>> ReadAsync(string userId)
+        {
+            using (var sqlConnection = new SqlConnection(sqlConnectionString))
+            {
+                return await sqlConnection.QueryAsync<Environment2D>("SELECT * FROM [Environment2D] WHERE UserId = @UserId", new { userId });
             }
         }
 
